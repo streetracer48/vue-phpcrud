@@ -17,6 +17,17 @@
                     <button class="add fright" @click="showingAddModal = true">Add New</button>
                     <div class="clear"></div>
                     <hr>
+		<p class="errorMessage" v-if="errorMessage">
+			{{errorMessage}}
+		</p>
+
+		<p class="successMessage" v-if="successMessage">
+			{{successMessage}}
+		</p>
+
+
+
+
                     <table class="list">
                         <tr>
                             <th>ID</th>
@@ -26,13 +37,13 @@
                             <th>Edit</th>
                             <th>Delete</th>
                         </tr>
-                        <tr>
-                            <td>1</td>
-                            <td>myusername</td>
-                            <td>myemail</td>
-                            <td>myphone</td>
-                            <td><button @click="showingEditModal = true">Edit</button></td>
-                            <td><button @click="showingDeleteModal = true">Delete</button></td>
+                        <tr V-for="user in users">
+                            <td>{{user.id}}</td>
+                            <td>{{user.username}}</td>
+                            <td>{{user.email}}</td>
+                             <td>{{user.mobile}}</td>
+                            <td><button @click="showingEditModal = true; selectUser(user)">Edit</button></td>
+                            <td><button @click="showingDeleteModal = true; selectUser(user)">Delete</button></td>
                         </tr>
 
                     </table>
@@ -52,43 +63,30 @@
                         <div class="modalContent">
                             <table class="form">
                                 <tr>
-                                    <th>
-                                        username
-                                    </th>
+                                    <th>Username</th>
                                     <th> : </th>
-                                    <td>
-                                        <input type="text" name="">
-                                    </td>
+                                    <td> <input type="text" name="" v-model="newUser.username"> </td>
                                 </tr>
 
                                 <tr>
-                                    <th>
-                                        email
-                                    </th>
+                                    <th>Email</th>
                                     <th> : </th>
-                                    <td>
-                                        <input type="text" name="">
-                                    </td>
+                                    <td> <input type="text" name="" v-model="newUser.email"> </td>
                                 </tr>
 
                                 <tr>
-                                    <th>
-                                        Mobile
-                                    </th>
+                                    <th>Mobile</th>
                                     <th> : </th>
-                                    <td>
-                                        <input type="text" name="">
-                                    </td>
+                                    <td> <input type="text" name="" v-model="newUser.mobile"> </td>
                                 </tr>
 
                                 <tr>
-                                    <th>
-                                    </th>
+                                    <th></th>
                                     <th> </th>
-                                    <td>
-                                        <button @click="showingAddModal = false">Save</button>
-                                    </td>
+                                    <td> <button @click="showingAddModal = false; saveUser()">Save</button> </td>
                                 </tr>
+
+
                             </table>
                         </div>
                     </div>
@@ -114,7 +112,7 @@
                                     </th>
                                     <th> : </th>
                                     <td>
-                                        <input type="text" name="">
+                                        <input type="text" name="" v-model="clickUser.username">
                                     </td>
                                 </tr>
 
@@ -124,7 +122,7 @@
                                     </th>
                                     <th> : </th>
                                     <td>
-                                        <input type="text" name="">
+                                        <input type="text" v-model ="clickUser.email">
                                     </td>
                                 </tr>
 
@@ -134,7 +132,7 @@
                                     </th>
                                     <th> : </th>
                                     <td>
-                                        <input type="text" name="">
+                                        <input type="text" v-model ="clickUser.mobile">
                                     </td>
                                 </tr>
 
@@ -143,7 +141,7 @@
                                     </th>
                                     <th> </th>
                                     <td>
-                                        <button @click="showingEditModal = false">Update</button>
+                                        <button @click="showingEditModal = false; updateUser()">Update</button>
                                     </td>
                                 </tr>
                             </table>
@@ -155,7 +153,7 @@
                 <div class="modal" id="deleteModal" v-if="showingDeleteModal">
                     <div class="modalContainer">
                         <div class="modalHeading">
-                            <p class="fleft"> Are You Sure? </p>
+                            <p class="fleft"> Are You Sure ? </p>
                             <button class="fright close" @click="showingDeleteModal = false">
                                 X
                             </button>
@@ -164,10 +162,10 @@
                         </div>
 
                         <div class="modalContent">
-                            You are going to delete ...
+                            You are going to delete user of {{clickUser.username}}
                             <br><br><br>
 
-                            <button @click="showingDeleteModal = false">Yes</button>
+                            <button @click="showingDeleteModal = false; deleteUser()">Yes</button>
                             <button @click="showingDeleteModal = false">No</button>
 
                         </div>
@@ -175,7 +173,7 @@
                 </div>
             </div>
 </div>
-
+   <script type="text/javascript" src="axios.js"></script>
     <script type="text/javascript" src="vue.js"></script>
     <script type="text/javascript" src="app.js"></script>
 </body>
